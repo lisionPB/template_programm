@@ -18,6 +18,8 @@ from mainFrame.screenInit import ScreenInit
 from mainFrame.screenMenu import ScreenMenu
 from mainFrame.screenCheckSchweis import ScreenCheckSchweis
 from mainFrame.screenPruefSchweis import ScreenPruefSchweis
+from mainFrame.screenCheckStaub import ScreenCheckStaub
+
 from mainFrame.screenCredits import ScreenCredits
 
 class ViewLayerManager():
@@ -68,9 +70,13 @@ class ViewLayerManager():
         vMenu = ScreenMenu(self.mainWindow)
         self.__vc.add_view(self.VIEWID_MENU, vMenu)
         vMenu._sig_StartSchweis.connect(self.__startSchweis)
+        vMenu._sig_StartStaub.connect(self.__startStaub)
         #vMenu._sig_quit.connect(self.__quit)
         
+        #####
         # MESSPROGRAMME
+        
+        # Schweis 
         self.vCheckSchweis = ScreenCheckSchweis(self.mainWindow)
         self.__vc.add_view(self.VIEWID_CHECK_SCHWEIS, self.vCheckSchweis)
         self.vCheckSchweis._sig_quit.connect(self.__zumMenu)
@@ -78,7 +84,13 @@ class ViewLayerManager():
         self.vPruefSchweis = ScreenPruefSchweis(self.mainWindow)
         self.__vc.add_view(self.VIEWID_PRUEF_SCHWEIS, self.vPruefSchweis)
         
+        # Staub
+        self.vCheckStaub = ScreenCheckStaub(self.mainWindow)
+        self.__vc.add_view(self.VIEWID_CHECK_STAUBTECH, self.vCheckStaub)
+        self.vCheckStaub._sig_quit.connect(self.__zumMenu)
         
+        
+        #####
         # CREDITS
         vCredits = ScreenCredits(self.mainWindow)
         self.__vc.add_view(self.VIEWID_CREDITS, vCredits)
@@ -95,6 +107,10 @@ class ViewLayerManager():
 
     def __startSchweis(self):
         self.__vc.set_currentView(self.VIEWID_CHECK_SCHWEIS)
+        
+        
+    def __startStaub(self):
+        self.__vc.set_currentView(self.VIEWID_CHECK_STAUBTECH)
         
     
     def __zumMenu(self):

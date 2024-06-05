@@ -3,7 +3,7 @@ from PyQt5.QtCore import Qt, pyqtSignal, QObject
 
 from mainFrame.screen import Screen
 
-class ScreenCheckSchweis(Screen):
+class ScreenCheckBerst(Screen):
 
     _sig_start = pyqtSignal()
     _sig_quit = pyqtSignal()
@@ -22,18 +22,18 @@ class ScreenCheckSchweis(Screen):
 
         self.centerLayout.addStretch(1)
         
-        self.lTitle = QLabel("Checkliste: Schweißrauchtechnische Prüfung")
+        self.lTitle = QLabel("Checkliste: Berstfestigkeits Prüfung")
         self.centerLayout.addWidget(self.lTitle)
         
         self.centerLayout.addStretch(1)
 
-        self.cb1 = QCheckBox("Schweißgerät eingeschalten?")
+        self.cb1 = QCheckBox("Staubvorratsbehälter gefüllt?")
         self.centerLayout.addWidget(self.cb1)
 
-        self.cb2 = QCheckBox("Gasflasche aufgedreht?")
+        self.cb2 = QCheckBox("Körnungsanalyse durchgeführt?")
         self.centerLayout.addWidget(self.cb2)
 
-        self.cb3 = QCheckBox("Schweißrauchquelle eingeschalten?")
+        self.cb3 = QCheckBox("Abluftventilator auf Automatik?")
         self.centerLayout.addWidget(self.cb3)
         
         self.cb4 = QCheckBox("befindet sich der Umluft- / Abluftschalter in der richtigen Position?")
@@ -42,8 +42,17 @@ class ScreenCheckSchweis(Screen):
         self.cb5 = QCheckBox("Prüfkammer geschlossen?")
         self.centerLayout.addWidget(self.cb5)
         
-        self.cb6 = QCheckBox("Gasflasche aufgedreht?")
+        self.cb6 = QCheckBox("Pumpen eingeschaltet?")
         self.centerLayout.addWidget(self.cb6)
+        
+        self.cb7 = QCheckBox("Richtige Absaugssonde eingebaut?")
+        self.centerLayout.addWidget(self.cb7)
+        
+        self.cb8 = QCheckBox("Gravimetrie: Messfilter eingebaut?")
+        self.centerLayout.addWidget(self.cb8)
+        
+        self.cb9 = QCheckBox("Staubzuführung gewährleistet?")
+        self.centerLayout.addWidget(self.cb9)
         
         self.groupSchlauch = QGroupBox()
         self.centerLayout.addWidget(self.groupSchlauch)
@@ -58,11 +67,6 @@ class ScreenCheckSchweis(Screen):
         self.sbSchlauch.setValue(10.0)
         self.sbSchlauch.setDecimals(2)
 
-        self.cb7 = QCheckBox("Richtige Absaugssonde eingebaut?")
-        self.centerLayout.addWidget(self.cb7)
-        
-        self.cb8 = QCheckBox("Gravimetrie: Messfilter eingebaut?")
-        self.centerLayout.addWidget(self.cb8)
         
         self.groupRaum = QGroupBox()
         self.centerLayout.addWidget(self.groupRaum)
@@ -109,6 +113,21 @@ class ScreenCheckSchweis(Screen):
         self.sbHerstellerVol = QDoubleSpinBox()
         self.layoutHerstellerVol.addWidget(self.sbHerstellerVol)
         self.sbHerstellerVol.setDecimals(2)
+        
+        self.groupGewicht = QGroupBox()
+        self.centerLayout.addWidget(self.groupGewicht)
+        self.groupGewicht.setStyleSheet(".QGroupBox{ border: 0px solid white }")
+        self.layoutGewicht = QHBoxLayout()
+        self.layoutGewicht.setContentsMargins(0,0,0,0)
+        self.groupGewicht.setLayout(self.layoutGewicht)
+        self.cbGewichtGes = QCheckBox("akt. Gesamtgewicht Staub / Soll [kg]")
+        self.layoutGewicht.addWidget(self.cbGewichtGes)
+        self.leGesGewicht = QLineEdit()
+        self.layoutGewicht.addWidget(self.leGesGewicht)
+        self.lGewichtSoll = QLabel("/")
+        self.layoutGewicht.addWidget(self.lGewichtSoll)
+        self.leGewichtSoll = QLineEdit()
+        self.layoutGewicht.addWidget(self.leGewichtSoll)
         
         
         self.cb9 = QCheckBox("Messung starten?")
