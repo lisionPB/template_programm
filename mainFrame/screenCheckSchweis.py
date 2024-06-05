@@ -13,7 +13,10 @@ class ScreenCheckSchweis(Screen):
         super().__init__(mainWindow)
 
         self.checks = []
-
+        
+        self.mainLayout = QHBoxLayout()
+        self.setLayout(self.mainLayout)
+        
         self.mainLayout.addStretch(1)
 
         self.groupCenter = QGroupBox()
@@ -168,4 +171,10 @@ class ScreenCheckSchweis(Screen):
                 break
         
         self.pbStart.setEnabled(ready)
+        
+        
+    def on_setActive(self):
+        #TODO: Set all not checked
+        for cb in self.checks:
+            cb.setChecked(True)
         

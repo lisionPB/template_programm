@@ -19,6 +19,7 @@ from mainFrame.screenMenu import ScreenMenu
 from mainFrame.screenCheckSchweis import ScreenCheckSchweis
 from mainFrame.screenPruefSchweis import ScreenPruefSchweis
 from mainFrame.screenCheckStaub import ScreenCheckStaub
+
 from mainFrame.screenCheckBerst import ScreenCheckBerst
 
 from mainFrame.screenCredits import ScreenCredits
@@ -70,9 +71,9 @@ class ViewLayerManager():
         # MENU
         vMenu = ScreenMenu(self.mainWindow)
         self.__vc.add_view(self.VIEWID_MENU, vMenu)
-        vMenu._sig_StartSchweis.connect(self.__startSchweis)
-        vMenu._sig_StartStaub.connect(self.__startStaub)
-        vMenu._sig_StartBerst.connect(self.__startBerst)
+        vMenu._sig_StartSchweis.connect(self.__checkSchweis)
+        vMenu._sig_StartStaub.connect(self.__checkStaub)
+        vMenu._sig_StartBerst.connect(self.__checkBerst)
         #vMenu._sig_quit.connect(self.__quit)
         
         #####
@@ -82,14 +83,17 @@ class ViewLayerManager():
         self.vCheckSchweis = ScreenCheckSchweis(self.mainWindow)
         self.__vc.add_view(self.VIEWID_CHECK_SCHWEIS, self.vCheckSchweis)
         self.vCheckSchweis._sig_quit.connect(self.__zumMenu)
+        self.vCheckSchweis._sig_start.connect(self.__startSchweis)
         
         self.vPruefSchweis = ScreenPruefSchweis(self.mainWindow)
         self.__vc.add_view(self.VIEWID_PRUEF_SCHWEIS, self.vPruefSchweis)
+        
         
         # Staub
         self.vCheckStaub = ScreenCheckStaub(self.mainWindow)
         self.__vc.add_view(self.VIEWID_CHECK_STAUBTECH, self.vCheckStaub)
         self.vCheckStaub._sig_quit.connect(self.__zumMenu)
+        
         
         # Berst
         self.vCheckBerst = ScreenCheckBerst(self.mainWindow)
@@ -112,16 +116,28 @@ class ViewLayerManager():
         self.__vc.set_currentView(self.VIEWID_MENU)
 
 
-    def __startSchweis(self):
+    def __checkSchweis(self):
         self.__vc.set_currentView(self.VIEWID_CHECK_SCHWEIS)
         
         
-    def __startStaub(self):
+    def __checkStaub(self):
         self.__vc.set_currentView(self.VIEWID_CHECK_STAUBTECH)
         
         
-    def __startBerst(self):
+    def __checkBerst(self):
         self.__vc.set_currentView(self.VIEWID_CHECK_BERSTFEST)
+
+
+    def __startSchweis(self):
+        self.__vc.set_currentView(self.VIEWID_PRUEF_SCHWEIS)
+        
+        
+    def __startStaub(self):
+        self.__vc.set_currentView(self.VIEWID_PRUEF_STAUBTECH)
+        
+        
+    def __startBerst(self):
+        self.__vc.set_currentView(self.VIEWID_PRUEF_BERSTFEST)
         
     
     def __zumMenu(self):

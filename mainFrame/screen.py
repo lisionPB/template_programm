@@ -7,10 +7,7 @@ class Screen(QGroupBox):
     def __init__(self, mainWindow):
         super().__init__()
 
-        self.mainWindow = mainWindow
-    
-        self.mainLayout = QHBoxLayout()
-        self.setLayout(self.mainLayout)  
+        self.mainWindow = mainWindow  
 
 
     def on_setActive(self):

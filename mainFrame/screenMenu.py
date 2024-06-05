@@ -17,6 +17,9 @@ class ScreenMenu(Screen):
     def __init__(self, mainWindow):
         super().__init__(mainWindow)
 
+        self.mainLayout = QHBoxLayout()
+        self.setLayout(self.mainLayout)
+
         self.mainLayout.addStretch(1)
 
         self.groupCenter = QGroupBox()

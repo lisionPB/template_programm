@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QWidget, QGroupBox, QVBoxLayout, QLabel, QApplication
+from PyQt5.QtWidgets import QWidget, QGroupBox, QHBoxLayout, QVBoxLayout, QLabel, QApplication
 import PyQt5.QtCore
 from PyQt5.QtCore import pyqtSignal
 
@@ -15,6 +15,9 @@ class ScreenInit(Screen):
 
     def __init__(self, mainWindow):
         super().__init__(mainWindow)
+
+        self.mainLayout = QHBoxLayout()
+        self.setLayout(self.mainLayout)
 
         # background image
         self.setStyleSheet('background-image:url("symbols/start.png"); background-repeat: no-repeat')
