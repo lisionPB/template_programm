@@ -12,6 +12,8 @@ class ScreenCheckSchweis(Screen):
     def __init__(self, mainWindow):
         super().__init__(mainWindow)
 
+        self.checks = []
+
         self.mainLayout.addStretch(1)
 
         self.groupCenter = QGroupBox()
@@ -29,21 +31,33 @@ class ScreenCheckSchweis(Screen):
 
         self.cb1 = QCheckBox("Schweißgerät eingeschalten?")
         self.centerLayout.addWidget(self.cb1)
+        self.checks.append(self.cb1)
+        self.cb1.stateChanged.connect(self.__checkReady)
 
         self.cb2 = QCheckBox("Gasflasche aufgedreht?")
         self.centerLayout.addWidget(self.cb2)
+        self.checks.append(self.cb2)
+        self.cb2.stateChanged.connect(self.__checkReady)
 
         self.cb3 = QCheckBox("Schweißrauchquelle eingeschalten?")
         self.centerLayout.addWidget(self.cb3)
+        self.checks.append(self.cb3)
+        self.cb3.stateChanged.connect(self.__checkReady)
         
         self.cb4 = QCheckBox("befindet sich der Umluft- / Abluftschalter in der richtigen Position?")
         self.centerLayout.addWidget(self.cb4)
+        self.checks.append(self.cb4)
+        self.cb4.stateChanged.connect(self.__checkReady)
         
         self.cb5 = QCheckBox("Prüfkammer geschlossen?")
         self.centerLayout.addWidget(self.cb5)
+        self.checks.append(self.cb5)
+        self.cb5.stateChanged.connect(self.__checkReady)
         
         self.cb6 = QCheckBox("Gasflasche aufgedreht?")
         self.centerLayout.addWidget(self.cb6)
+        self.checks.append(self.cb6)
+        self.cb6.stateChanged.connect(self.__checkReady)
         
         self.groupSchlauch = QGroupBox()
         self.centerLayout.addWidget(self.groupSchlauch)
@@ -53,6 +67,8 @@ class ScreenCheckSchweis(Screen):
         self.groupSchlauch.setLayout(self.layoutSchlauch)
         self.cbSchlauch = QCheckBox("Schlauchdurchmesser")
         self.layoutSchlauch.addWidget(self.cbSchlauch)
+        self.checks.append(self.cbSchlauch)
+        self.cbSchlauch.stateChanged.connect(self.__checkReady)
         self.sbSchlauch = QDoubleSpinBox()
         self.layoutSchlauch.addWidget(self.sbSchlauch)
         self.sbSchlauch.setValue(10.0)
@@ -60,9 +76,13 @@ class ScreenCheckSchweis(Screen):
 
         self.cb7 = QCheckBox("Richtige Absaugssonde eingebaut?")
         self.centerLayout.addWidget(self.cb7)
+        self.checks.append(self.cb7)
+        self.cb7.stateChanged.connect(self.__checkReady)
         
         self.cb8 = QCheckBox("Gravimetrie: Messfilter eingebaut?")
         self.centerLayout.addWidget(self.cb8)
+        self.checks.append(self.cb8)
+        self.cb8.stateChanged.connect(self.__checkReady)
         
         self.groupRaum = QGroupBox()
         self.centerLayout.addWidget(self.groupRaum)
@@ -72,6 +92,8 @@ class ScreenCheckSchweis(Screen):
         self.groupRaum.setLayout(self.layoutRaum)
         self.cbTemperatur = QCheckBox("Temperatur [°C]")
         self.layoutRaum.addWidget(self.cbTemperatur)
+        self.checks.append(self.cbTemperatur)
+        self.cbTemperatur.stateChanged.connect(self.__checkReady)
         self.sbTemperatur = QDoubleSpinBox()
         self.layoutRaum.addWidget(self.sbTemperatur)
         self.sbTemperatur.setValue(10.0)
@@ -91,6 +113,8 @@ class ScreenCheckSchweis(Screen):
         self.groupKundeBericht.setLayout(self.layoutKundeBericht)
         self.cbKunde = QCheckBox("Kunde")
         self.layoutKundeBericht.addWidget(self.cbKunde)
+        self.checks.append(self.cbKunde)
+        self.cbKunde.stateChanged.connect(self.__checkReady)
         self.leKunde = QLineEdit()
         self.layoutKundeBericht.addWidget(self.leKunde)
         self.lBericht = QLabel("Berichtsnummer")
@@ -106,6 +130,8 @@ class ScreenCheckSchweis(Screen):
         self.groupHerstellerVol.setLayout(self.layoutHerstellerVol)
         self.cbHerstellerVol = QCheckBox("Herstellerang. Volumenstrom")
         self.layoutHerstellerVol.addWidget(self.cbHerstellerVol)
+        self.checks.append(self.cbHerstellerVol)
+        self.cbHerstellerVol.stateChanged.connect(self.__checkReady)
         self.sbHerstellerVol = QDoubleSpinBox()
         self.layoutHerstellerVol.addWidget(self.sbHerstellerVol)
         self.sbHerstellerVol.setDecimals(2)
@@ -113,6 +139,8 @@ class ScreenCheckSchweis(Screen):
         
         self.cb9 = QCheckBox("Messung starten?")
         self.centerLayout.addWidget(self.cb9)
+        self.checks.append(self.cb9)
+        self.cb9.stateChanged.connect(self.__checkReady)
         
         self.groupStartZuruck = QGroupBox()
         self.centerLayout.addWidget(self.groupStartZuruck)
@@ -123,8 +151,21 @@ class ScreenCheckSchweis(Screen):
         self.layoutStartZuruck.addWidget(self.pbZuruck)
         self.pbStart = QPushButton("Weiter >>")
         self.layoutStartZuruck.addWidget(self.pbStart)
+        self.pbStart.setEnabled(False)
         self.pbStart.clicked.connect(self._sig_start.emit)
 
         self.centerLayout.addStretch(2)
         
         self.mainLayout.addStretch(1)
+        
+    
+    
+    def __checkReady(self):
+        ready = True
+        for cb in self.checks:
+            if(not cb.isChecked()):
+                ready = False
+                break
+        
+        self.pbStart.setEnabled(ready)
+        

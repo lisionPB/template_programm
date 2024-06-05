@@ -19,6 +19,7 @@ from mainFrame.screenMenu import ScreenMenu
 from mainFrame.screenCheckSchweis import ScreenCheckSchweis
 from mainFrame.screenPruefSchweis import ScreenPruefSchweis
 from mainFrame.screenCheckStaub import ScreenCheckStaub
+from mainFrame.screenCheckBerst import ScreenCheckBerst
 
 from mainFrame.screenCredits import ScreenCredits
 
@@ -34,9 +35,9 @@ class ViewLayerManager():
     VIEWID_CHECK_SCHWEIS = 1
     VIEWID_PRUEF_SCHWEIS = 2
     VIEWID_CHECK_STAUBTECH = 3
-    VIEWID_STAUBTECH = 4
+    VIEWID_PRUEF_STAUBTECH = 4
     VIEWID_CHECK_BERSTFEST = 5
-    VIEWID_BERSTFEST = 6
+    VIEWID_PRUEF_BERSTFEST = 6
     VIEWID_CREDITS = 7
 
 
@@ -71,6 +72,7 @@ class ViewLayerManager():
         self.__vc.add_view(self.VIEWID_MENU, vMenu)
         vMenu._sig_StartSchweis.connect(self.__startSchweis)
         vMenu._sig_StartStaub.connect(self.__startStaub)
+        vMenu._sig_StartBerst.connect(self.__startBerst)
         #vMenu._sig_quit.connect(self.__quit)
         
         #####
@@ -88,6 +90,11 @@ class ViewLayerManager():
         self.vCheckStaub = ScreenCheckStaub(self.mainWindow)
         self.__vc.add_view(self.VIEWID_CHECK_STAUBTECH, self.vCheckStaub)
         self.vCheckStaub._sig_quit.connect(self.__zumMenu)
+        
+        # Berst
+        self.vCheckBerst = ScreenCheckBerst(self.mainWindow)
+        self.__vc.add_view(self.VIEWID_CHECK_BERSTFEST, self.vCheckBerst)
+        self.vCheckBerst._sig_quit.connect(self.__zumMenu)
         
         
         #####
@@ -111,6 +118,10 @@ class ViewLayerManager():
         
     def __startStaub(self):
         self.__vc.set_currentView(self.VIEWID_CHECK_STAUBTECH)
+        
+        
+    def __startBerst(self):
+        self.__vc.set_currentView(self.VIEWID_CHECK_BERSTFEST)
         
     
     def __zumMenu(self):
