@@ -16,9 +16,8 @@ Controller funktion
 
 from mainFrame.screenInit import ScreenInit
 from mainFrame.screenMenu import ScreenMenu
-from mainFrame.screenLoading import ScreenLoading
-from mainFrame.screenPlay import ScreenPlay
-from mainFrame.screenPause import ScreenPause
+from mainFrame.screenCheckSchweis import ScreenCheckSchweis
+from mainFrame.screenPruefSchweis import ScreenPruefSchweis
 from mainFrame.screenCredits import ScreenCredits
 
 class ViewLayerManager():
@@ -30,10 +29,13 @@ class ViewLayerManager():
     # VIEW_IDs
     VIEWID_INIT = -1
     VIEWID_MENU = 0
-    VIEWID_LOADGAME = 1
-    VIEWID_PLAY = 2
-    VIEWID_PAUSE = 3
-    VIEWID_CREDITS = 4
+    VIEWID_CHECK_SCHWEIS = 1
+    VIEWID_PRUEF_SCHWEIS = 2
+    VIEWID_CHECK_STAUBTECH = 3
+    VIEWID_STAUBTECH = 4
+    VIEWID_CHECK_BERSTFEST = 5
+    VIEWID_BERSTFEST = 6
+    VIEWID_CREDITS = 7
 
 
     def __init__(self, mainWindow):
@@ -59,41 +61,29 @@ class ViewLayerManager():
         
         # INIT
         vInit = ScreenInit(self.mainWindow)
+        self.__vc.add_view(self.VIEWID_INIT, vInit)
         vInit.process._sig_processEnded.connect(self.__initComplete)
         
         # MENU
         vMenu = ScreenMenu(self.mainWindow)
-        vMenu._sig_start.connect(self.__start)
-        vMenu._sig_quit.connect(self.__quit)
+        self.__vc.add_view(self.VIEWID_MENU, vMenu)
+        vMenu._sig_StartSchweis.connect(self.__startSchweis)
+        #vMenu._sig_quit.connect(self.__quit)
         
-        # PLAY
-        self.vPlay = ScreenPlay(self.mainWindow)
-        self.vPlay._sig_pause.connect(self.__pause)
+        # MESSPROGRAMME
+        self.vCheckSchweis = ScreenCheckSchweis(self.mainWindow)
+        self.__vc.add_view(self.VIEWID_CHECK_SCHWEIS, self.vCheckSchweis)
+        self.vCheckSchweis._sig_quit.connect(self.__zumMenu)
         
-        # LOADING
-        self.vLoading = ScreenLoading(self.mainWindow, self.vPlay)
-        self.vLoading._sig_gameLoaded.connect(self.__play)
-        self.vLoading._sig_loadfailed.connect(self.__failedLoad)
+        self.vPruefSchweis = ScreenPruefSchweis(self.mainWindow)
+        self.__vc.add_view(self.VIEWID_PRUEF_SCHWEIS, self.vPruefSchweis)
         
-        # PAUSE
-        vPause = ScreenPause(self.mainWindow)
-        vPause._sig_continue.connect(self.__continue)
-        vPause._sig_quit.connect(self.__quitGame)
         
         # CREDITS
         vCredits = ScreenCredits(self.mainWindow)
-        vCredits.process._sig_processEnded.connect(self.__close)
-        
-        
-        #
-        # Add Views to View Container
-        
-        self.__vc.add_view(self.VIEWID_INIT, vInit)
-        self.__vc.add_view(self.VIEWID_MENU, vMenu)
-        self.__vc.add_view(self.VIEWID_LOADGAME, self.vLoading)
-        self.__vc.add_view(self.VIEWID_PLAY, self.vPlay)
-        self.__vc.add_view(self.VIEWID_PAUSE, vPause)
         self.__vc.add_view(self.VIEWID_CREDITS, vCredits)
+        vCredits.process._sig_processEnded.connect(self.__close)
+
         
 
     ##########
@@ -101,28 +91,15 @@ class ViewLayerManager():
 
     def __initComplete(self):
         self.__vc.set_currentView(self.VIEWID_MENU)
+
+
+    def __startSchweis(self):
+        self.__vc.set_currentView(self.VIEWID_CHECK_SCHWEIS)
         
-    def __start(self):
-        self.vLoading.loadGame()
-        self.__vc.set_currentView(self.VIEWID_LOADGAME)
-        
-    def __play(self):
-        self.__vc.set_currentView(self.VIEWID_PLAY)
-        
-        
-    def __failedLoad(self):
-        # TODO: Show Error Dialog
-        pass
     
-        
-    def __pause(self):
-        self.__vc.set_currentView(self.VIEWID_PAUSE)
-        
-    def __continue(self):
-        self.__vc.set_currentView(self.VIEWID_PLAY)
-        
-    def __quitGame(self):
+    def __zumMenu(self):
         self.__vc.set_currentView(self.VIEWID_MENU)
+
         
     def __quit(self):
         self.__vc.set_currentView(self.VIEWID_CREDITS)

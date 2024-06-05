@@ -17,7 +17,7 @@ class ScreenInit(Screen):
         super().__init__(mainWindow)
 
         # background image
-        self.setStyleSheet('background-image:url("gfx/init/space.png"); background-repeat: no-repeat')
+        self.setStyleSheet('background-image:url("symbols/start.png"); background-repeat: no-repeat')
         
         self.layout().setContentsMargins(0,0,0,0)
         self.setContentsMargins(0,0,0,0)
@@ -37,6 +37,6 @@ class ScreenInit(Screen):
         displayWidth = QApplication.primaryScreen().size().width()
         displayHeight = QApplication.primaryScreen().size().height()
         self.mainWindow.setGeometry(int((displayWidth - self.SCREEN_WIDTH) / 2),  int((displayHeight - self.SCREEN_HEIGHT) / 2) ,self.SCREEN_WIDTH, self.SCREEN_HEIGHT)
-        self.mainWindow.setWindowFlags(PyQt5.QtCore.Qt.FramelessWindowHint)
+        # self.mainWindow.setWindowFlags(PyQt5.QtCore.Qt.FramelessWindowHint)
         
         self.process.startProcess()
