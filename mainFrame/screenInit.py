@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QWidget, QGroupBox, QHBoxLayout, QVBoxLayout, QLabel, QApplication
+from PyQt5.QtWidgets import QWidget, QGroupBox, QHBoxLayout, QVBoxLayout, QLabel, QApplication, QProgressBar
 import PyQt5.QtCore
 from PyQt5.QtCore import pyqtSignal
 
@@ -16,7 +16,7 @@ class ScreenInit(Screen):
     def __init__(self, mainWindow):
         super().__init__(mainWindow)
 
-        self.mainLayout = QHBoxLayout()
+        self.mainLayout = QVBoxLayout()
         self.setLayout(self.mainLayout)
 
         # background image
@@ -30,9 +30,24 @@ class ScreenInit(Screen):
 
         # skip on key
         
+        self.mainLayout.addStretch(1)
+        
+        self.lStatus = QLabel("")
+        self.mainLayout.addWidget(self.lStatus)
+        
+        self.prbProgress = QProgressBar()
+        self.mainLayout.addWidget(self.prbProgress)
+        
+        
         # Incldude Init-Process
         self.process = ProcessInit()
+        
+        self.process._sig_stateProgress.connect(self.updateProgress)
 
+    
+    def updateProgress(self, fortschritt):
+        self.prbProgress.setValue(fortschritt * 100)
+        self.lStatus.setText(self.process.statusText)
     
     
     def on_setActive(self):

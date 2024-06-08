@@ -30,7 +30,5 @@ if __name__ == "__main__":
     app.exec()
 
 
-    # TODO: Icon
-    # TODO: Icon in Taskleiste
     # TODO: Single Open
     # TODO: Crash abfangen
