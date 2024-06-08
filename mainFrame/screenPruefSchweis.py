@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QGroupBox, QPushButton, QVBoxLayout, QHBoxLayout, QLabel
+from PyQt5.QtWidgets import QGroupBox, QPushButton, QVBoxLayout, QHBoxLayout, QLabel, QTimeEdit
 from PyQt5.QtCore import Qt, pyqtSignal, QObject
 
 import pyqtgraph as pg
@@ -12,6 +12,7 @@ from mainFrame.screen import Screen
 from mainFrame.elements.alertWidget import AlertWidget
 from mainFrame.elements.valueWidget import ValueWidget
 from mainFrame.elements.setValueWidget import SetValueWidget
+from mainFrame.elements.setTimeWidget import SetTimeWidget
 from mainFrame.elements.consoleWidget import ConsoleWidget
 
 from datenerfassung.messdatenGraphWidget import MessdatenGraphWidget
@@ -85,7 +86,7 @@ class ScreenPruefSchweis(Screen):
         self.valueRaumTemp = ValueWidget("Raumtemperatur: ", "°C")
         self.layoutRaum.addWidget(self.valueRaumTemp)
         
-        self.valueRaumFeuchte = ValueWidget("Feuchtigkeit: ", "\%rh")
+        self.valueRaumFeuchte = ValueWidget("Feuchtigkeit: ", "%rh")
         self.layoutRaum.addWidget(self.valueRaumFeuchte)
         
         # HW-Settings
@@ -106,8 +107,9 @@ class ScreenPruefSchweis(Screen):
         self.setValueSollV2 = SetValueWidget("Sollwert V2: ", "m/s")
         self.layoutMess.addWidget(self.setValueSollV2)
         
-        self.setValueMessdauer = SetValueWidget("Messdauer: ", " (hh:mm)")
+        self.setValueMessdauer = SetTimeWidget("Messdauer: ", " (hh:mm)")
         self.layoutMess.addWidget(self.setValueMessdauer)
+        
         
         self.setValueWartezeit = SetValueWidget("Wartezeit: ", "min")
         self.layoutMess.addWidget(self.setValueWartezeit)
