@@ -12,6 +12,8 @@ from PyQt5.QtWidgets import QMainWindow, QAction
 
 from mainFrame.helpDialog import HelpDialog
 
+from datenerfassung.hwSetup import HWSetup
+
 import mainFrame.viewLayerManager as vlm
 import mainFrame.viewContainer as vc
 
@@ -53,7 +55,7 @@ class MainFrame(QMainWindow):
         
         
         # HW-Setup -> Wird in Init-Prozess initialisiert
-        self.hwSetup = None 
+        self.hwSetup = HWSetup()
         
         
 

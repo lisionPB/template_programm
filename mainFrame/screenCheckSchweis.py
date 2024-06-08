@@ -3,6 +3,8 @@ from PyQt5.QtCore import Qt, pyqtSignal, QObject
 
 from style.lisionStyle import LisionStyle
 
+import config.parameters as params
+
 from mainFrame.screen import Screen
 
 class ScreenCheckSchweis(Screen):
@@ -71,13 +73,14 @@ class ScreenCheckSchweis(Screen):
         self.layoutSchlauch = QHBoxLayout()
         self.layoutSchlauch.setContentsMargins(0,0,0,0)
         self.groupSchlauch.setLayout(self.layoutSchlauch)
-        self.cbSchlauch = QCheckBox("Schlauchdurchmesser")
+        self.cbSchlauch = QCheckBox("Schlauchdurchmesser [mm]")
         self.layoutSchlauch.addWidget(self.cbSchlauch)
         self.checks.append(self.cbSchlauch)
         self.cbSchlauch.stateChanged.connect(self.__checkReady)
         self.sbSchlauch = QDoubleSpinBox()
+        self.sbSchlauch.valueChanged.connect(self.schlauchdurchmesserChanged)
         self.layoutSchlauch.addWidget(self.sbSchlauch)
-        self.sbSchlauch.setValue(10.0)
+        self.sbSchlauch.setValue(params.defaults[params.SCHLAUCHDURCHMESSER])
         self.sbSchlauch.setDecimals(2)
 
         self.cb7 = QCheckBox("Richtige Absaugssonde eingebaut?")
@@ -100,16 +103,14 @@ class ScreenCheckSchweis(Screen):
         self.layoutRaum.addWidget(self.cbTemperatur)
         self.checks.append(self.cbTemperatur)
         self.cbTemperatur.stateChanged.connect(self.__checkReady)
-        self.sbTemperatur = QDoubleSpinBox()
-        self.layoutRaum.addWidget(self.sbTemperatur)
-        self.sbTemperatur.setValue(10.0)
-        self.sbTemperatur.setDecimals(2)
+        self.leTemperatur = QLineEdit()
+        self.layoutRaum.addWidget(self.leTemperatur)
+        self.leTemperatur.setReadOnly(True)
         self.lFeuchte = QLabel("Feuchtigkeit [%]")
         self.layoutRaum.addWidget(self.lFeuchte)
-        self.sbFeuchte = QDoubleSpinBox()
-        self.layoutRaum.addWidget(self.sbFeuchte)
-        self.sbFeuchte.setValue(50.0)
-        self.sbFeuchte.setDecimals(2)
+        self.leFeuchte = QLineEdit()
+        self.layoutRaum.addWidget(self.leFeuchte)
+        self.leFeuchte.setReadOnly(True)
 
         self.groupKundeBericht = QGroupBox()
         self.centerLayout.addWidget(self.groupKundeBericht)
@@ -134,7 +135,7 @@ class ScreenCheckSchweis(Screen):
         self.layoutHerstellerVol = QHBoxLayout()
         self.layoutHerstellerVol.setContentsMargins(0,0,0,0)
         self.groupHerstellerVol.setLayout(self.layoutHerstellerVol)
-        self.cbHerstellerVol = QCheckBox("Herstellerang. Volumenstrom")
+        self.cbHerstellerVol = QCheckBox("Herstellerang. Volumenstrom [m/s]")
         self.layoutHerstellerVol.addWidget(self.cbHerstellerVol)
         self.checks.append(self.cbHerstellerVol)
         self.cbHerstellerVol.stateChanged.connect(self.__checkReady)
@@ -181,3 +182,7 @@ class ScreenCheckSchweis(Screen):
         for cb in self.checks:
             cb.setChecked(True)
         
+
+    def schlauchdurchmesserChanged(self):
+        print (self.sbSchlauch.value())
+        self.mainWindow.hwSetup.einstellungen[params.SCHLAUCHDURCHMESSER] = self.sbSchlauch.value()

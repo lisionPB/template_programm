@@ -3,6 +3,8 @@ from PyQt5.QtCore import Qt, pyqtSignal, QObject
 
 from style.lisionStyle import LisionStyle
 
+import config.parameters as params
+
 from mainFrame.screen import Screen
 
 class ScreenCheckBerst(Screen):
@@ -66,11 +68,12 @@ class ScreenCheckBerst(Screen):
         self.layoutSchlauch = QHBoxLayout()
         self.layoutSchlauch.setContentsMargins(0,0,0,0)
         self.groupSchlauch.setLayout(self.layoutSchlauch)
-        self.cbSchlauch = QCheckBox("Schlauchdurchmesser")
+        self.cbSchlauch = QCheckBox("Schlauchdurchmesser [mm]")
         self.layoutSchlauch.addWidget(self.cbSchlauch)
         self.sbSchlauch = QDoubleSpinBox()
+        self.sbSchlauch.valueChanged.connect(self.schlauchdurchmesserChanged)
         self.layoutSchlauch.addWidget(self.sbSchlauch)
-        self.sbSchlauch.setValue(10.0)
+        self.sbSchlauch.setValue(params.defaults[params.SCHLAUCHDURCHMESSER])
         self.sbSchlauch.setDecimals(2)
 
         
@@ -82,16 +85,14 @@ class ScreenCheckBerst(Screen):
         self.groupRaum.setLayout(self.layoutRaum)
         self.cbTemperatur = QCheckBox("Temperatur [°C]")
         self.layoutRaum.addWidget(self.cbTemperatur)
-        self.sbTemperatur = QDoubleSpinBox()
-        self.layoutRaum.addWidget(self.sbTemperatur)
-        self.sbTemperatur.setValue(10.0)
-        self.sbTemperatur.setDecimals(2)
+        self.leTemperatur = QLineEdit()
+        self.layoutRaum.addWidget(self.leTemperatur)
+        self.leTemperatur.setReadOnly(True)
         self.lFeuchte = QLabel("Feuchtigkeit [%]")
         self.layoutRaum.addWidget(self.lFeuchte)
-        self.sbFeuchte = QDoubleSpinBox()
-        self.layoutRaum.addWidget(self.sbFeuchte)
-        self.sbFeuchte.setValue(50.0)
-        self.sbFeuchte.setDecimals(2)
+        self.leFeuchte = QLineEdit()
+        self.layoutRaum.addWidget(self.leFeuchte)
+        self.leFeuchte.setReadOnly(True)
 
         self.groupKundeBericht = QGroupBox()
         self.centerLayout.addWidget(self.groupKundeBericht)
@@ -114,7 +115,7 @@ class ScreenCheckBerst(Screen):
         self.layoutHerstellerVol = QHBoxLayout()
         self.layoutHerstellerVol.setContentsMargins(0,0,0,0)
         self.groupHerstellerVol.setLayout(self.layoutHerstellerVol)
-        self.cbHerstellerVol = QCheckBox("Herstellerang. Volumenstrom")
+        self.cbHerstellerVol = QCheckBox("Herstellerang. Volumenstrom [m/s]")
         self.layoutHerstellerVol.addWidget(self.cbHerstellerVol)
         self.sbHerstellerVol = QDoubleSpinBox()
         self.layoutHerstellerVol.addWidget(self.sbHerstellerVol)
@@ -153,3 +154,8 @@ class ScreenCheckBerst(Screen):
         self.centerLayout.addStretch(2)
         
         self.mainLayout.addStretch(1)
+        
+        
+        
+    def schlauchdurchmesserChanged(self):
+        self.mainWindow.hwSetup.einstellungen[params.SCHLAUCHDURCHMESSER] = self.sbSchlauch.value()

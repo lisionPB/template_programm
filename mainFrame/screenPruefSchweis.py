@@ -5,6 +5,8 @@ import pyqtgraph as pg
 
 from style.lisionStyle import LisionStyle
 
+import config.parameters as params
+
 from mainFrame.screen import Screen
 
 from mainFrame.elements.alertWidget import AlertWidget
@@ -184,6 +186,10 @@ class ScreenPruefSchweis(Screen):
 
 
     def on_setActive(self):
+        
+        # Get Settings
+        self.setValueSchlauchDM.value.setValue(self.mainWindow.hwSetup.einstellungen[params.SCHLAUCHDURCHMESSER])
+        
         # self.mainWindow.setWindowFlags(Qt.Hint)
         self.mainWindow.showMaximized()
         # self.mainWindow.showFullScreen()
