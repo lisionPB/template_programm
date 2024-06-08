@@ -1,6 +1,8 @@
 from PyQt5.QtWidgets import QGroupBox, QPushButton, QVBoxLayout, QHBoxLayout, QCheckBox, QLineEdit, QDoubleSpinBox, QLabel
 from PyQt5.QtCore import Qt, pyqtSignal, QObject
 
+from style.lisionStyle import LisionStyle
+
 from mainFrame.screen import Screen
 
 class ScreenCheckSchweis(Screen):
@@ -27,8 +29,9 @@ class ScreenCheckSchweis(Screen):
 
         self.centerLayout.addStretch(1)
         
-        self.lTitle = QLabel("Checkliste: Schweißrauchtechnische Prüfung")
+        self.lTitle = QLabel("Checkliste:\nSchweißrauchtechnische Prüfung")
         self.centerLayout.addWidget(self.lTitle)
+        self.lTitle.setFont(LisionStyle.LABEL_FONT_TITEL)
         
         self.centerLayout.addStretch(1)
 

@@ -46,7 +46,7 @@ class ScreenInit(Screen):
 
     
     def updateProgress(self, fortschritt):
-        self.prbProgress.setValue(fortschritt * 100)
+        self.prbProgress.setValue(int(fortschritt * 100))
         self.lStatus.setText(self.process.statusText)
     
     

@@ -3,6 +3,8 @@ from PyQt5.QtCore import Qt, pyqtSignal, QObject
 
 import pyqtgraph as pg
 
+from style.lisionStyle import LisionStyle
+
 from mainFrame.screen import Screen
 
 from mainFrame.elements.alertWidget import AlertWidget
@@ -41,6 +43,10 @@ class ScreenPruefSchweis(Screen):
         
         # self.layoutLeft.addStretch(1)
         self.groupLeft.setFixedWidth(1200)
+        
+        self.lTitel = QLabel("Schweißrauchtechnische Prüfung")
+        self.layoutLeft.addWidget(self.lTitel)
+        self.lTitel.setFont(LisionStyle.LABEL_FONT_TITEL)
         
         # Diagramm
         
