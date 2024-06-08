@@ -64,9 +64,9 @@ class ViewLayerManager():
     def init_views(self):
         
         # INIT
-        vInit = ScreenInit(self.mainWindow)
-        self.__vc.add_view(self.VIEWID_INIT, vInit)
-        vInit.process._sig_processEnded.connect(self.__initComplete)
+        self.vInit = ScreenInit(self.mainWindow)
+        self.__vc.add_view(self.VIEWID_INIT, self.vInit)
+        self.vInit.process._sig_processEnded.connect(self.__initComplete)
         
         # MENU
         vMenu = ScreenMenu(self.mainWindow)
@@ -87,6 +87,7 @@ class ViewLayerManager():
         
         self.vPruefSchweis = ScreenPruefSchweis(self.mainWindow)
         self.__vc.add_view(self.VIEWID_PRUEF_SCHWEIS, self.vPruefSchweis)
+        self.vPruefSchweis._sig_quit.connect(self.__zumMenu)
         
         
         # Staub
@@ -114,7 +115,8 @@ class ViewLayerManager():
 
     def __initComplete(self):
         self.__vc.set_currentView(self.VIEWID_MENU)
-
+        # Übergebe initialisiertes HW-Setup an MainWindow als zentrale Instanz
+        # self.mainWindow.set_hwSetup(self.vInit.process)
 
     def __checkSchweis(self):
         self.__vc.set_currentView(self.VIEWID_CHECK_SCHWEIS)

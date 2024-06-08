@@ -52,12 +52,13 @@ class MainFrame(QMainWindow):
         
         
         
+        # HW-Setup -> Wird in Init-Prozess initialisiert
+        self.hwSetup = None 
         
         
 
         # Init Viel Layer Manager
         self.vlm = vlm.ViewLayerManager(self)
-        
 
         # ViewContainer
         self.viewContainer = vc.ViewContainer()
@@ -65,6 +66,9 @@ class MainFrame(QMainWindow):
 
         # Setze View in Controller 
         self.vlm.set_viewContainer(self.viewContainer)
+        
+        
+        
 
         
 
@@ -79,6 +83,9 @@ class MainFrame(QMainWindow):
         """
         self.view.set_layout(layout, structure)
 
+
+    def set_hwSetup(self, hwSetup):
+        self.hwSetup = hwSetup
 
 
     #################
