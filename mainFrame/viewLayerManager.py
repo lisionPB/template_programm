@@ -173,7 +173,7 @@ class ViewLayerManager():
     def handleKeyRelease(self, e):
         # Auto steuern
 
-        print(e.key())
+        # print(e.key())
 
         input = {}
 

@@ -45,7 +45,6 @@ class ScreenPruefSchweis(Screen):
         self.groupLeft.setLayout(self.layoutLeft)
         
         # self.layoutLeft.addStretch(1)
-        self.groupLeft.setFixedWidth(1200)
         
         self.lTitel = QLabel("Schweißrauchtechnische Prüfung")
         self.layoutLeft.addWidget(self.lTitel)
@@ -65,6 +64,8 @@ class ScreenPruefSchweis(Screen):
         self.layoutTop.addWidget(self.groupRight)
         self.layoutRight = QVBoxLayout()
         self.groupRight.setLayout(self.layoutRight)
+        self.groupRight.setFixedWidth(500)
+        
         
         # Alarme
         self.groupAlerts = QGroupBox()
@@ -110,29 +111,49 @@ class ScreenPruefSchweis(Screen):
         self.setValueMessdauer = SetTimeWidget("Messdauer: ", " (hh:mm)")
         self.layoutMess.addWidget(self.setValueMessdauer)
         
-        
-        self.setValueWartezeit = SetValueWidget("Wartezeit: ", "min")
+        self.setValueWartezeit = SetValueWidget("Wartezeit: ", "min", decimals=0)
         self.layoutMess.addWidget(self.setValueWartezeit)
         
         
         # Prüfungsteuerung
+
+        self.groupPruef = QGroupBox()
+        self.layoutRight.addWidget(self.groupPruef)
+        self.layoutPruef = QHBoxLayout()
+        self.groupPruef.setLayout(self.layoutPruef)
         
-        self.pbStart = QPushButton("Messung starten")
-        self.layoutMess.addWidget(self.pbStart)
+        self.pbStart = QPushButton("Messung: START")
+        self.layoutPruef.addWidget(self.pbStart)
+        self.pbStart.setFixedWidth(150)
         
-        self.pbStop = QPushButton("STOP")
-        self.layoutMess.addWidget(self.pbStop)
+        self.pbStop = QPushButton("Messung: STOP")
+        self.layoutPruef.addWidget(self.pbStop)
+        self.pbStop.setFixedWidth(150)
+        self.pbStop.setVisible(False)
+        
+        self.layoutPruef.addStretch()
+        
+        
+        # Zurück
+        
+        self.groupZurueck = QGroupBox()
+        self.layoutRight.addWidget(self.groupZurueck)
+        self.layoutZurueck = QHBoxLayout()
+        self.groupZurueck.setLayout(self.layoutZurueck)
+        
+        self.layoutZurueck.addStretch()
+        
+        self.pbZuruck = QPushButton("Zurück zum Menü")
+        self.layoutZurueck.addWidget(self.pbZuruck)
+        self.pbZuruck.setFixedWidth(150)
+        self.pbZuruck.clicked.connect(self._sig_quit.emit)
+        
         
         # Console
         
         self.console = ConsoleWidget([])
         self.layoutRight.addWidget(self.console)
         
-        # Zurück
-        
-        self.pbZuruck = QPushButton("Zurück zum Menü")
-        self.layoutRight.addWidget(self.pbZuruck)
-        self.pbZuruck.clicked.connect(self._sig_quit.emit)
         
         
         
@@ -195,3 +216,4 @@ class ScreenPruefSchweis(Screen):
         # self.mainWindow.setWindowFlags(Qt.Hint)
         self.mainWindow.showMaximized()
         # self.mainWindow.showFullScreen()
+        

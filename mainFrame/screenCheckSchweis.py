@@ -184,5 +184,4 @@ class ScreenCheckSchweis(Screen):
         
 
     def schlauchdurchmesserChanged(self):
-        print (self.sbSchlauch.value())
         self.mainWindow.hwSetup.einstellungen[params.SCHLAUCHDURCHMESSER] = self.sbSchlauch.value()
